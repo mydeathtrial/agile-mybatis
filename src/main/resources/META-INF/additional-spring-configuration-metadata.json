@@ -1,0 +1,10 @@
+{
+  "properties": [
+    {
+      "name": "agile.dao.mybatis.enable",
+      "type": "java.lang.Boolean",
+      "description": "Agile-Dao-Mybatis支持",
+      "defaultValue": true
+    }
+  ]
+}
