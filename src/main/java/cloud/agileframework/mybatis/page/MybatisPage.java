@@ -1,4 +1,4 @@
-package com.agile.common.mybatis;
+package cloud.agileframework.mybatis.page;
 
 /**
  * @author 佟盟

@@ -1,4 +1,4 @@
-package com.agile.common.mybatis;
+package cloud.agileframework.mybatis.page;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;

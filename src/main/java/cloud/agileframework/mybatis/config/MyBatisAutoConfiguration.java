@@ -1,16 +1,14 @@
-package com.agile.common.config;
+package cloud.agileframework.mybatis.config;
 
-import com.agile.common.mybatis.CustomConfiguration;
-import com.agile.common.mybatis.MybatisInterceptor;
+import cloud.agileframework.mybatis.page.CustomConfiguration;
+import cloud.agileframework.mybatis.page.MybatisInterceptor;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,10 +23,10 @@ import javax.sql.DataSource;
  * @since 1.0
  */
 @Configuration
-@MapperScan(basePackages = {"com.agile"}, annotationClass = Mapper.class)
+@MapperScan(basePackages = {"cloud.agileframework"}, annotationClass = Mapper.class)
 @ConditionalOnClass({SqlSessionFactory.class, MapperScannerConfigurer.class, DataSource.class})
-@ConditionalOnProperty(prefix = "agile.mybatis", name = "enable")
 public class MyBatisAutoConfiguration {
+
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
@@ -38,10 +36,5 @@ public class MyBatisAutoConfiguration {
         sessionFactory.setConfiguration(configuration);
         sessionFactory.setPlugins(new Interceptor[]{new MybatisInterceptor()});
         return sessionFactory.getObject();
-    }
-
-    @Bean
-    public MybatisInterceptor interceptor() {
-        return new MybatisInterceptor();
     }
 }

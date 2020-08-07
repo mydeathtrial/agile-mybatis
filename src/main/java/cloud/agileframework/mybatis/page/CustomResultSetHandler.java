@@ -1,7 +1,7 @@
-package com.agile.common.mybatis;
+package cloud.agileframework.mybatis.page;
 
-import com.agile.common.util.clazz.TypeReference;
-import com.agile.common.util.object.ObjectUtil;
+import cloud.agileframework.common.util.clazz.TypeReference;
+import cloud.agileframework.common.util.object.ObjectUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.ibatis.binding.MapperMethod;

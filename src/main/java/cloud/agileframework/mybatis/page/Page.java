@@ -1,4 +1,4 @@
-package com.agile.common.mybatis;
+package cloud.agileframework.mybatis.page;
 
 import lombok.Data;
 
@@ -26,5 +26,13 @@ public class Page<T> extends ArrayList<T> {
         this.pageRequest = pageRequest;
         this.total = total;
         this.content.addAll(c);
+    }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "total=" + total +
+                ", content=" + content +
+                '}';
     }
 }
