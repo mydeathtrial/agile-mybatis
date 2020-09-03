@@ -21,14 +21,22 @@ total及页内容content。只需声明，无需额外调用，以最低的代�
 您可以从[最新稳定版本]下载包(https://github.com/mydeathtrial/agile-mybatis/releases).
 该包已上传至maven中央仓库，可在pom中直接声明引用
 
-以版本agile-mybatis-0.1.jar为例。
+以版本agile-mybatis-2.0.0.jar为例。
 #### 步骤 2: 添加maven依赖
 ```xml
-        <dependency>
-            <groupId>cloud.agileframework</groupId>
-            <artifactId>agile-mybatis</artifactId>
-            <version>0.1</version>
-        </dependency>
+<!--声明中央仓库-->
+<repositories>
+    <repository>
+        <id>cent</id>
+        <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+</repositories>
+<!--声明依赖-->
+<dependency>
+    <groupId>cloud.agileframework</groupId>
+    <artifactId>agile-mybatis</artifactId>
+    <version>2.0.0</version>
+</dependency>
 ```
 #### 步骤 3: 开箱即用
 ##### 接口定义，支持Mybatis原生方式，要注意接口上需要使用`@Mapper`注解，且声明为spring bean，这里使用`@Component`声明
