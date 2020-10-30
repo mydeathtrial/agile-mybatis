@@ -21,7 +21,7 @@ total及页内容content。只需声明，无需额外调用，以最低的代�
 您可以从[最新稳定版本]下载包(https://github.com/mydeathtrial/agile-mybatis/releases).
 该包已上传至maven中央仓库，可在pom中直接声明引用
 
-以版本agile-mybatis-2.0.0.jar为例。
+以版本agile-mybatis-2.0.6.jar为例。
 #### 步骤 2: 添加maven依赖
 ```xml
 <!--声明中央仓库-->
@@ -35,7 +35,7 @@ total及页内容content。只需声明，无需额外调用，以最低的代�
 <dependency>
     <groupId>cloud.agileframework</groupId>
     <artifactId>agile-mybatis</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.6</version>
 </dependency>
 ```
 #### 步骤 3: 开箱即用
