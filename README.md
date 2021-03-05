@@ -1,28 +1,35 @@
 # agile-mybatis ： Mybatis扩展
+
 [![spring-boot](https://img.shields.io/badge/Spring--boot-LATEST-green)](https://img.shields.io/badge/spring-LATEST-green)
 [![maven](https://img.shields.io/badge/build-maven-green)](https://img.shields.io/badge/build-maven-green)
+
 ## 它有什么作用
 
 * **结果POJO映射**
-查询返回结果可以直接声明为POJO或POJO集合，其映射过程是依赖于cloud.agileframework:common-util对象深度转换器实现，所以支持
-识别驼峰与下划线等风格属性的互转。只需声明，无需额外调用，以最低的代码入侵实现类似ORM映射效果。
+  查询返回结果可以直接声明为POJO或POJO集合，其映射过程是依赖于cloud.agileframework:common-util对象深度转换器实现，所以支持
+  识别驼峰与下划线等风格属性的互转。只需声明，无需额外调用，以最低的代码入侵实现类似ORM映射效果。
 
 * **分页拦截器**
-分页方式是通过扩展Mybatis拦截器，当入参中包含接口MybatisPage类（及其实现类）且返回参数为Page<T>形式时触发分页拦截器，解析总条数
-total及页内容content。只需声明，无需额外调用，以最低的代码入侵实现Mybatis分页。
+  分页方式是通过扩展Mybatis拦截器，当入参中包含接口MybatisPage类（及其实现类）且返回参数为Page<T>形式时触发分页拦截器，解析总条数
+  total及页内容content。只需声明，无需额外调用，以最低的代码入侵实现Mybatis分页。
 
 * **低代码入侵**
-不改变任何Mybatis原生编码方式及能力
+  不改变任何Mybatis原生编码方式及能力
+
 -------
+
 ## 快速入门
+
 开始你的第一个项目是非常容易的。
 
 #### 步骤 1: 下载包
-您可以从[最新稳定版本]下载包(https://github.com/mydeathtrial/agile-mybatis/releases).
-该包已上传至maven中央仓库，可在pom中直接声明引用
 
-以版本agile-mybatis-2.0.9.jar为例。
+您可以从[最新稳定版本]下载包(https://github.com/mydeathtrial/agile-mybatis/releases). 该包已上传至maven中央仓库，可在pom中直接声明引用
+
+以版本agile-mybatis-2.0.10.jar为例。
+
 #### 步骤 2: 添加maven依赖
+
 ```xml
 <!--声明中央仓库-->
 <repositories>
@@ -31,15 +38,18 @@ total及页内容content。只需声明，无需额外调用，以最低的代�
         <url>https://repo1.maven.org/maven2/</url>
     </repository>
 </repositories>
-<!--声明依赖-->
+        <!--声明依赖-->
 <dependency>
-    <groupId>cloud.agileframework</groupId>
-    <artifactId>agile-mybatis</artifactId>
-    <version>2.0.9</version>
+<groupId>cloud.agileframework</groupId>
+<artifactId>agile-mybatis</artifactId>
+<version>2.0.10</version>
 </dependency>
 ```
+
 #### 步骤 3: 开箱即用
+
 ##### 接口定义，支持Mybatis原生方式，要注意接口上需要使用`@Mapper`注解，且声明为spring bean，这里使用`@Component`声明
+
 ```java
 @Component
 @Mapper
@@ -61,7 +71,9 @@ public interface MyRepository {
     SysApiEntity findOne(@Param("param") String id);
 }
 ```
+
 ##### API调用，调用过程与调用普通spring bean形式相同，写操作需添加事务注解，此处不做过多描述，可参照spring与mybatis官方文档
+
 ```java
 @Service
 public class TestService {

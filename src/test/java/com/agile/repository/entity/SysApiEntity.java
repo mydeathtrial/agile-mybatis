@@ -1,11 +1,13 @@
 package com.agile.repository.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.io.Serializable;
 
@@ -19,13 +21,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@TableName("sys_api")
 public class SysApiEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @TableId(type = IdType.AUTO)
     private Long sysApiId;
     private String name;
     private Boolean type;
-    private String typeText;
+    //    private String typeText;
     private String businessName;
     private String businessCode;
     private String remarks;

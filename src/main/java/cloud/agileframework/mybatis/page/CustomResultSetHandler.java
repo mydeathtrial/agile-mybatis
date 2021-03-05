@@ -418,7 +418,7 @@ public class CustomResultSetHandler implements ResultSetHandler {
         if (propertyMapping.getNestedQueryId() != null) {
             return getNestedQueryMappingValue(rs, metaResultObject, propertyMapping, lazyLoader, columnPrefix);
         } else if (propertyMapping.getResultSet() != null) {
-            addPendingChildRelation(rs, metaResultObject, propertyMapping);   // TODO is that OK?
+            addPendingChildRelation(rs, metaResultObject, propertyMapping);
             return DEFERED;
         } else {
             final TypeHandler<?> typeHandler = propertyMapping.getTypeHandler();
@@ -581,7 +581,7 @@ public class CustomResultSetHandler implements ResultSetHandler {
      * 省略
      */
     private Object createResultObject(ResultSetWrapper rsw, ResultMap resultMap, ResultLoaderMap lazyLoader, String columnPrefix) throws SQLException {
-        this.useConstructorMappings = false; // reset previous mapping result
+        this.useConstructorMappings = false;
         final List<Class<?>> constructorArgTypes = new ArrayList<Class<?>>();
         final List<Object> constructorArgs = new ArrayList<Object>();
         Object resultObject = createResultObject(rsw, resultMap, constructorArgTypes, constructorArgs, columnPrefix);
@@ -595,7 +595,7 @@ public class CustomResultSetHandler implements ResultSetHandler {
                 }
             }
         }
-        this.useConstructorMappings = (resultObject != null && !constructorArgTypes.isEmpty()); // set current mapping result
+        this.useConstructorMappings = (resultObject != null && !constructorArgTypes.isEmpty());
         return resultObject;
     }
 
@@ -942,7 +942,7 @@ public class CustomResultSetHandler implements ResultSetHandler {
                         Object ancestorObject = ancestorObjects.get(nestedResultMapId);
                         if (ancestorObject != null) {
                             if (newObject) {
-                                linkObjects(metaObject, resultMapping, ancestorObject); // issue #385
+                                linkObjects(metaObject, resultMapping, ancestorObject);
                             }
                             continue;
                         }
@@ -951,7 +951,7 @@ public class CustomResultSetHandler implements ResultSetHandler {
                     final CacheKey combinedKey = combineKeys(rowKey, parentRowKey);
                     Object rowValue = nestedResultObjects.get(combinedKey);
                     boolean knownValue = (rowValue != null);
-                    instantiateCollectionPropertyIfAppropriate(resultMapping, metaObject); // mandatory
+                    instantiateCollectionPropertyIfAppropriate(resultMapping, metaObject);
                     if (anyNotNullColumnHasValue(resultMapping, columnPrefix, rsw)) {
                         rowValue = getRowValue(rsw, nestedResultMap, combinedKey, columnPrefix, rowValue);
                         if (rowValue != null && !knownValue) {

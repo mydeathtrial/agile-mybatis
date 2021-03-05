@@ -54,8 +54,12 @@ public class MybatisInterceptor implements Interceptor {
         MetaObject metaStatementHandler = SystemMetaObject.forObject(statementHandler);
         Object object = null;
         //分离代理对象链，目标可能被多个拦截器拦截，分离出最原始的目标类
-        while (metaStatementHandler.hasGetter("h")) {
-            object = metaStatementHandler.getValue("h");
+        while (true) {
+            final String h = "h";
+            if (!metaStatementHandler.hasGetter(h)) {
+                break;
+            }
+            object = metaStatementHandler.getValue(h);
             metaStatementHandler = SystemMetaObject.forObject(object);
         }
 

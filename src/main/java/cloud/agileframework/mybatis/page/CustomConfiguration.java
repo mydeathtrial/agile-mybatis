@@ -1,5 +1,6 @@
 package cloud.agileframework.mybatis.page;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
@@ -16,7 +17,7 @@ import org.apache.ibatis.session.RowBounds;
  * @version 1.0
  * @since 1.0
  */
-public class CustomConfiguration extends org.apache.ibatis.session.Configuration {
+public class CustomConfiguration extends MybatisConfiguration {
     @Override
     public ResultSetHandler newResultSetHandler(Executor executor, MappedStatement mappedStatement, RowBounds rowBounds, ParameterHandler parameterHandler, ResultHandler resultHandler, BoundSql boundSql) {
         ResultSetHandler resultSetHandler = new CustomResultSetHandler(executor, mappedStatement, parameterHandler, resultHandler, boundSql, rowBounds);

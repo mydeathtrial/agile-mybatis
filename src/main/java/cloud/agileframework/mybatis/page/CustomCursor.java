@@ -36,7 +36,6 @@ import java.util.NoSuchElementException;
  */
 public class CustomCursor<T> implements org.apache.ibatis.cursor.Cursor<T> {
 
-    // ResultSetHandler stuff
     private final CustomResultSetHandler resultSetHandler;
     private final ResultMap resultMap;
     private final ResultSetWrapper rsw;

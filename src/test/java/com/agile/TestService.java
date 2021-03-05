@@ -1,9 +1,11 @@
 package com.agile;
 
 import cloud.agileframework.mybatis.page.MybatisPage;
+import com.agile.repository.Mappersss;
 import com.agile.repository.MyRepository;
 import com.agile.repository.entity.SysApiEntity;
 import com.alibaba.fastjson.JSON;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -28,6 +30,12 @@ public class TestService {
 
     @Autowired
     private MyRepository repository;
+
+    @Autowired
+    private Mappersss mappersss;
+
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
 
     /**
      * 查询分页
@@ -58,11 +66,14 @@ public class TestService {
         logger.info(JSON.toJSONString(list, true));
     }
 
+
     /**
      * 查询单个结果映射
      */
     @Test
     public void findOne() {
+
+
         SysApiEntity entity = repository.findOne("428477999713751040");
         logger.info(JSON.toJSONString(entity, true));
     }

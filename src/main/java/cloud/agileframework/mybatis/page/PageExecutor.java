@@ -34,7 +34,7 @@ import java.util.Map;
  * @since 1.0
  */
 public class PageExecutor implements Executor {
-    private Executor executor;
+    private final Executor executor;
 
     PageExecutor(Executor executor) {
         this.executor = executor;

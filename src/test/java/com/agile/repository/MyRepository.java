@@ -7,7 +7,6 @@ import com.agile.repository.entity.SysApiEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -18,7 +17,6 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
-@Component
 @Mapper
 public interface MyRepository {
 
