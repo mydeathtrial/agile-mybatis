@@ -72,8 +72,6 @@ public class TestService {
      */
     @Test
     public void findOne() {
-
-
         SysApiEntity entity = repository.findOne("428477999713751040");
         logger.info(JSON.toJSONString(entity, true));
     }

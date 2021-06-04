@@ -24,14 +24,19 @@ import javax.sql.DataSource;
 @ConditionalOnClass({SqlSessionFactory.class, MapperScannerConfigurer.class, DataSource.class})
 public class MyBatisAutoConfiguration {
 
+//    @Bean
+//    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+//        MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
+//        sessionFactory.setDataSource(dataSource);
+//        CustomConfiguration configuration = new CustomConfiguration();
+//        configuration.setCallSettersOnNulls(true);
+//        sessionFactory.setConfiguration(configuration);
+//        sessionFactory.setPlugins(new Interceptor[]{new MybatisInterceptor()});
+//        return sessionFactory.getObject();
+//    }
+
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        MybatisSqlSessionFactoryBean sessionFactory = new MybatisSqlSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource);
-        CustomConfiguration configuration = new CustomConfiguration();
-        configuration.setCallSettersOnNulls(true);
-        sessionFactory.setConfiguration(configuration);
-        sessionFactory.setPlugins(new Interceptor[]{new MybatisInterceptor()});
-        return sessionFactory.getObject();
+    Interceptor PageInterceptor(){
+        return new MybatisInterceptor();
     }
 }
