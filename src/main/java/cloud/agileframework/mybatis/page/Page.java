@@ -1,6 +1,7 @@
 package cloud.agileframework.mybatis.page;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.List;
  * @version 1.0
  * @since 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class Page<T> extends ArrayList<T> {
     private MybatisPage pageRequest;
@@ -31,7 +33,8 @@ public class Page<T> extends ArrayList<T> {
     @Override
     public String toString() {
         return "Page{" +
-                "total=" + total +
+                "pageRequest=" + pageRequest +
+                ", total=" + total +
                 ", content=" + content +
                 '}';
     }

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 佟盟
@@ -31,4 +32,9 @@ public interface MyRepository {
 
     @Select("<script> select * from sys_api where sys_api_id = #{param}</script>")
     SysApiEntity findOne(@Param("param") String id);
+
+    @Select("<script> select '{\"nickname\": \"goodspeed\", \"avatar\": \"avatar_url\", \"tags\": [\"python\", \"golang\", \"db\"]}'::jsonb->>'nickname' as nickname</script>")
+    List<Map<String,Object>> findOne2();
+
+    SysApiEntity findOne3(@Param("param") String id);
 }

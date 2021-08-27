@@ -1,7 +1,6 @@
 package com.agile;
 
 import cloud.agileframework.mybatis.page.MybatisPage;
-import com.agile.repository.Mappersss;
 import com.agile.repository.MyRepository;
 import com.agile.repository.entity.SysApiEntity;
 import com.alibaba.fastjson.JSON;
@@ -30,9 +29,6 @@ public class TestService {
 
     @Autowired
     private MyRepository repository;
-
-    @Autowired
-    private Mappersss mappersss;
 
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
@@ -74,6 +70,22 @@ public class TestService {
     public void findOne() {
         SysApiEntity entity = repository.findOne("428477999713751040");
         logger.info(JSON.toJSONString(entity, true));
+    }
+
+    /**
+     * 查询单个结果映射
+     */
+    @Test
+    public void findOne2() {
+        logger.info(JSON.toJSONString(repository.findOne2(), true));
+    }
+
+    /**
+     * 查询单个结果映射
+     */
+    @Test
+    public void findOne3() {
+        logger.info(JSON.toJSONString(repository.findOne3("13"), true));
     }
 
     /**
