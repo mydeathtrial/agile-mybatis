@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.agile.repository.MyRepository">
+
+    <resultMap id="BaseResultMap" type="com.agile.repository.entity.SysApiEntity">
+        <result column="sys_api_id" jdbcType="INTEGER" property="sysApiId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+    </resultMap>
+
+    <select id="findOne3" resultMap="BaseResultMap">
+        select * from sys_api where sys_api_id = #{param}
+    </select>
+
+</mapper>
