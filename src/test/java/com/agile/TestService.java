@@ -1,12 +1,25 @@
 package com.agile;
 
 import cloud.agileframework.mybatis.page.MybatisPage;
+import cloud.agileframework.mybatis.page.Page;
 import com.agile.repository.MyRepository;
 import com.agile.repository.entity.SysApiEntity;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.druid.sql.builder.SQLBuilder;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.dynamic.sql.ColumnAndConditionCriterion;
+import org.mybatis.dynamic.sql.SqlBuilder;
+import org.mybatis.dynamic.sql.SqlColumn;
+import org.mybatis.dynamic.sql.SqlTable;
+import org.mybatis.dynamic.sql.render.RenderingStrategy;
+import org.mybatis.dynamic.sql.select.SelectModel;
+import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
+import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +27,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author 佟盟
@@ -23,7 +37,7 @@ import java.util.List;
  * @since 1.0
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class)
+@SpringBootTest
 public class TestService {
     private final Logger logger = LoggerFactory.getLogger(TestService.class);
 
@@ -33,23 +47,48 @@ public class TestService {
     @Autowired
     private SqlSessionFactory sqlSessionFactory;
 
+    @Autowired
+    private SqlSessionTemplate sqlSessionTemplate;
+
+    @Before
+    public void init() {
+        repository.create();
+        IntStream.range(1, 31).forEach(this::insert);
+    }
+
+    @After
+    public void after() {
+        System.out.println("222222");
+        delete();
+    }
+
+    @Test
+    public void testAll() {
+        List<SysApiEntity> list = repository.queryAll();
+        Assert.assertEquals(list.size(), 30);
+    }
+
     /**
      * 查询分页
      */
     @Test
     public void testPage() {
-        List<SysApiEntity> list = repository.page(new MybatisPage() {
+        Page<SysApiEntity> page = repository.page(new MybatisPage() {
             @Override
             public int getPageNum() {
-                return 1;
+                return 2;
             }
 
             @Override
             public int getPageSize() {
-                return 2;
+                return 3;
             }
         });
-        logger.info(JSON.toJSONString(list, true));
+        Assert.assertEquals(page.getTotal(), 30);
+        Assert.assertEquals(page.getContent().size(), 3);
+        Assert.assertEquals((long) page.getContent().get(0).getSysApiId(), 4l);
+        Assert.assertEquals((long) page.getContent().get(1).getSysApiId(), 5l);
+        Assert.assertEquals((long) page.getContent().get(2).getSysApiId(), 6l);
     }
 
     /**
@@ -57,9 +96,12 @@ public class TestService {
      */
     @Test
     public void testPage2() {
-        CustomPage customPage = new CustomPage("428477999713751040", 1, 2);
-        List<SysApiEntity> list = repository.page2(customPage);
-        logger.info(JSON.toJSONString(list, true));
+        CustomPage customPage = new CustomPage("测试1%", 1, 2);
+        Page<SysApiEntity> page = repository.page2(customPage);
+        Assert.assertEquals(page.getTotal(), 11);
+        Assert.assertEquals(page.getContent().size(), 2);
+        Assert.assertEquals((long) page.getContent().get(0).getSysApiId(), 1);
+        Assert.assertEquals((long) page.getContent().get(1).getSysApiId(), 10);
     }
 
 
@@ -68,24 +110,67 @@ public class TestService {
      */
     @Test
     public void findOne() {
-        SysApiEntity entity = repository.findOne("428477999713751040");
-        logger.info(JSON.toJSONString(entity, true));
+        SysApiEntity entity = repository.findOne("1");
+        Assert.assertEquals(entity.getType(), "001");
     }
 
     /**
-     * 查询单个结果映射
-     */
-    @Test
-    public void findOne2() {
-        logger.info(JSON.toJSONString(repository.findOne2(), true));
-    }
-
-    /**
-     * 查询单个结果映射
+     * xml查询单个结果映射
      */
     @Test
     public void findOne3() {
-        logger.info(JSON.toJSONString(repository.findOne3("13"), true));
+        SysApiEntity entity = repository.findOne3("1");
+        Assert.assertEquals(entity.getType(), "001");
+        Assert.assertEquals(entity.getTudou(), entity.getName());
+    }
+
+    /**
+     * xml查询单个结果映射
+     */
+    @Test
+    public void testResult() {
+        SysApiEntity entity = repository.testResult(1L);
+        Assert.assertEquals(entity.getType(), "001");
+        Assert.assertEquals(entity.getTudou1(), entity.getName());
+    }
+
+    public void insert(long id) {
+        String type = "00" + id;
+        repository.insert(SysApiEntity.builder()
+                .name("test")
+                .sysApiId(id)
+                .businessName("测试" + id)
+                .businessCode("code_" + id)
+                .remarks("备注")
+                .type(type)
+                .build());
+        SysApiEntity entity = repository.findOne(id + "");
+        Assert.assertEquals(entity.getType(), type);
+        Assert.assertEquals(entity.getTudou(), entity.getName());
+    }
+
+    @Test
+    public void update() {
+        repository.update(SysApiEntity.builder()
+                .name("111")
+                .sysApiId(1L)
+                .build());
+        SysApiEntity entity = repository.findOne("1");
+        Assert.assertEquals(entity.getType(), "001");
+        Assert.assertEquals(entity.getTudou(), entity.getName());
+    }
+
+    @Test
+    public void deleteTest() {
+        repository.delete(1L);
+        SysApiEntity entity = repository.findOne("1");
+        Assert.assertNull(entity);
+    }
+
+    public void delete() {
+        repository.delete(null);
+        SysApiEntity entity = repository.findOne("1");
+        Assert.assertNull(entity);
     }
 
     /**
@@ -115,5 +200,21 @@ public class TestService {
         public int getPageSize() {
             return size;
         }
+    }
+
+    @Test
+    public void sy(){
+        SqlTable table = SqlTable.of("sys_api");
+        SqlColumn<String> id = SqlColumn.of("id", table);
+        SqlColumn<String> name = SqlColumn.of("name", table);
+
+        SelectModel selectStatement = SqlBuilder.select(id, name)
+                .from(table)
+                .where(id, SqlBuilder.isIn("1", "5", "7"))
+                .and(id, SqlBuilder.isIn("2", "6", "8"), SqlBuilder.and(name, SqlBuilder.isLike("%bat")))
+                .or(id, SqlBuilder.isGreaterThan("60"))
+                .orderBy(id.descending(), name)
+                .build();
+        System.out.println();
     }
 }

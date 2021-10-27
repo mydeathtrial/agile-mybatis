@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 1.0
  */
 @SpringBootApplication
-@MapperScan("com.agile.repository")
+//@MapperScan("com.agile.repository")
 public class App {
     public static void main(String[] args) {
         new SpringApplication(App.class).run(args);

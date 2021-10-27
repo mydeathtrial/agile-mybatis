@@ -4,9 +4,7 @@ import cloud.agileframework.mybatis.page.MybatisPage;
 import cloud.agileframework.mybatis.page.Page;
 import com.agile.TestService;
 import com.agile.repository.entity.SysApiEntity;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -21,13 +19,27 @@ import java.util.Map;
 @Mapper
 public interface MyRepository {
 
+    @Update({"drop table if exists SYS_API;",
+            "create table SYS_API\n" +
+            "(\n" +
+            "    SYS_API_ID    INT not null,\n" +
+            "    NAME          VARCHAR2,\n" +
+            "    BUSINESS_NAME VARCHAR2,\n" +
+            "    BUSINESS_CODE VARCHAR2,\n" +
+            "    REMARKS       TEXT,\n" +
+            "    TYPE          VARCHAR,\n" +
+            "    constraint SYS_API_PK\n" +
+            "        primary key (SYS_API_ID)\n" +
+            ")"})
+    void create();
+
     @Select("<script> select * from sys_api </script>")
     List<SysApiEntity> queryAll();
 
     @Select("<script> select * from sys_api </script>")
     Page<SysApiEntity> page(MybatisPage pageInfo);
 
-    @Select("<script> select * from sys_api where sys_api_id = #{param}</script>")
+    @Select("<script> select * from sys_api where business_name like #{param}</script>")
     Page<SysApiEntity> page2(TestService.CustomPage pageInfo);
 
     @Select("<script> select * from sys_api where sys_api_id = #{param}</script>")
@@ -37,4 +49,25 @@ public interface MyRepository {
     List<Map<String,Object>> findOne2();
 
     SysApiEntity findOne3(@Param("param") String id);
+
+
+    @Select("SELECT * FROM sys_api where sys_api_id = #{id}")
+    @Results({
+            @Result(property = "tudou1",  column = "name"),
+    })
+    SysApiEntity testResult(Long id);
+
+//    @Options(useGeneratedKeys=true, keyProperty="sysApiId", keyColumn="sys_api_id") 支持主键自增数据库
+    @Insert("INSERT INTO sys_api(sys_api_id,business_code,business_name,name,type,remarks) VALUES(#{sysApiId}, #{businessCode},#{businessName},#{name}, #{type}, #{remarks})")
+    void insert(SysApiEntity sysApiEntity);
+
+    @Update("UPDATE sys_api SET name=#{name} WHERE sys_api_id =#{sysApiId}")
+    void update(SysApiEntity sysApiEntity);
+
+    @Delete("<script> DELETE FROM sys_api <where> " +
+            " 1=1" +
+            "<if test=\"id != null\"> and sys_api_id=#{id}</if> " +
+            "</where> </script> ")
+    void delete(Long id);
+
 }

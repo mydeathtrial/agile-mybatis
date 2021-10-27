@@ -1,5 +1,7 @@
 package cloud.agileframework.mybatis.page;
 
+import com.alibaba.druid.DbType;
+import com.alibaba.druid.sql.PagerUtils;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -27,6 +29,16 @@ import java.util.Properties;
  */
 @Intercepts(@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class, Integer.class}))
 public class MybatisInterceptor implements Interceptor {
+
+    private DbType type;
+
+    public DbType getType() {
+        return type;
+    }
+
+    public void setType(DbType type) {
+        this.type = type;
+    }
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -84,17 +96,11 @@ public class MybatisInterceptor implements Interceptor {
 
         String sql = (String) metaStatementHandler.getValue("delegate.boundSql.sql");
         //构建新的分页sql语句
-        String limitSql = "select * from (" + sql + ") $_paging_table limit ?,?";
+        String limitSql = PagerUtils.limit(sql,type,(page - 1) * pageSize,pageSize);
         //修改当前要执行的sql语句
         metaStatementHandler.setValue("delegate.boundSql.sql", limitSql);
         //相当于调用prepare方法，预编译sql并且加入参数，但是少了分页的两个参数，它返回一个PreparedStatement对象
-        PreparedStatement ps = (PreparedStatement) invocation.proceed();
-        //获取sql总的参数总数
-        int count = ps.getParameterMetaData().getParameterCount();
-        //设置与分页相关的两个参数
-        ps.setInt(count - 1, (page - 1) * pageSize);
-        ps.setInt(count, pageSize);
-        return ps;
+        return invocation.proceed();
     }
 
     public static void validatePageInfo(int page, int size) throws IllegalArgumentException {
