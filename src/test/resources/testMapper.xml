@@ -3,6 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.agile.repository.MyRepository">
     <select id="findOne3" resultType="com.agile.repository.entity.SysApiEntity">
-        select * from sys_api where sys_api_id = #{param}
+        select *
+        from sys_api
+        where sys_api_id = #{param}
     </select>
 </mapper>

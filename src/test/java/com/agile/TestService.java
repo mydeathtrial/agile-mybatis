@@ -4,21 +4,16 @@ import cloud.agileframework.mybatis.page.MybatisPage;
 import cloud.agileframework.mybatis.page.Page;
 import com.agile.repository.MyRepository;
 import com.agile.repository.entity.SysApiEntity;
-import com.alibaba.druid.sql.builder.SQLBuilder;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.dynamic.sql.ColumnAndConditionCriterion;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
-import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.mybatis.dynamic.sql.select.SelectModel;
-import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
-import org.mybatis.dynamic.sql.where.condition.IsEqualTo;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -203,7 +198,7 @@ public class TestService {
     }
 
     @Test
-    public void sy(){
+    public void sy() {
         SqlTable table = SqlTable.of("sys_api");
         SqlColumn<String> id = SqlColumn.of("id", table);
         SqlColumn<String> name = SqlColumn.of("name", table);

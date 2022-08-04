@@ -15,7 +15,6 @@ import org.apache.ibatis.reflection.SystemMetaObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -96,7 +95,7 @@ public class MybatisInterceptor implements Interceptor {
 
         String sql = (String) metaStatementHandler.getValue("delegate.boundSql.sql");
         //构建新的分页sql语句
-        String limitSql = PagerUtils.limit(sql,type,(page - 1) * pageSize,pageSize);
+        String limitSql = PagerUtils.limit(sql, type, (page - 1) * pageSize, pageSize);
         //修改当前要执行的sql语句
         metaStatementHandler.setValue("delegate.boundSql.sql", limitSql);
         //相当于调用prepare方法，预编译sql并且加入参数，但是少了分页的两个参数，它返回一个PreparedStatement对象

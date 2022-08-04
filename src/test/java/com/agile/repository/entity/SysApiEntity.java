@@ -3,6 +3,7 @@ package com.agile.repository.entity;
 //import com.baomidou.mybatisplus.annotation.IdType;
 //import com.baomidou.mybatisplus.annotation.TableId;
 //import com.baomidou.mybatisplus.annotation.TableName;
+
 import cloud.agileframework.common.annotation.Alias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
