@@ -11,5 +11,6 @@ create table SYS_API
         primary key (SYS_API_ID)
 );
 
-comment on table SYS_API is '系统api信息表';
+comment
+on table SYS_API is '系统api信息表';
 
